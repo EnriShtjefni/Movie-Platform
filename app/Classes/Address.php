@@ -4,10 +4,8 @@ namespace App\Classes;
 
 use PDO;
 
-class Address
+class Address extends BaseModel
 {
-    private PDO $pdo;
-    private int $id;
     private string $name;
     private string $city;
     private string $country;
@@ -22,26 +20,12 @@ class Address
      */
     public function __construct(PDO $pdo, string $name, string $city, string $country, string $phone)
     {
+        parent::__construct($pdo);
         $this->pdo = $pdo;
         $this->name = $name;
         $this->city = $city;
         $this->country = $country;
         $this->phone = $phone;
-    }
-
-    public function getPdo(): PDO
-    {
-        return $this->pdo;
-    }
-
-    public function setPdo(PDO $pdo): void
-    {
-        $this->pdo = $pdo;
-    }
-
-    public function getId(): int
-    {
-        return $this->id;
     }
 
     public function getName(): string
@@ -96,36 +80,11 @@ class Address
         return $stmt->execute([$this->name, $this->city, $this->country, $this->phone, $id]);
     }
 
-    public static function delete(PDO $pdo, int $id) {
-        $stmt = $pdo->prepare("DELETE FROM addresses WHERE id = ?");
-        return $stmt->execute([$id]);
+    protected static function getTableName() {
+        return "addresses";
     }
 
-    public static function getAll(PDO $pdo) {
-        $stmt = $pdo->query("SELECT * FROM addresses");
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
-
-    public static function getById(PDO $pdo, int $id) {
-        $stmt = $pdo->prepare("SELECT * FROM addresses WHERE id = ?");
-        $stmt->execute([$id]);
-        return $stmt->fetch(PDO::FETCH_ASSOC);
-    }
-
-    public static function countAll(PDO $pdo) {
-        $stmt = $pdo->query("SELECT COUNT(*) AS total FROM addresses");
-        return $stmt->fetch(PDO::FETCH_ASSOC)['total'];
-    }
-
-    public static function search(PDO $pdo, string $keyword) {
-        $stmt = $pdo->prepare("SELECT * FROM addresses WHERE name LIKE ?");
-        $stmt->execute(["%$keyword%"]);
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
-
-    public static function countSearch(PDO $pdo, string $keyword) {
-        $stmt = $pdo->prepare("SELECT COUNT(*) AS total FROM addresses WHERE name LIKE ?");
-        $stmt->execute(["%$keyword%"]);
-        return $stmt->fetch(PDO::FETCH_ASSOC)['total'];
+    protected static function getSearchedField() {
+        return "name";
     }
 }

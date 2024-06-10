@@ -4,10 +4,8 @@ namespace App\Classes;
 
 use PDO;
 
-class Movie
+class Movie extends BaseModel
 {
-    private PDO $pdo;
-    private int $id;
     private string $title;
     private string $description;
     private int $year;
@@ -26,6 +24,7 @@ class Movie
      */
     public function __construct(PDO $pdo, string $title, string $description, int $year, string $status, int $company_id, array $categories)
     {
+        parent::__construct($pdo);
         $this->pdo = $pdo;
         $this->title = $title;
         $this->description = $description;
@@ -33,21 +32,6 @@ class Movie
         $this->status = $status;
         $this->company_id = $company_id;
         $this->categories = $categories;
-    }
-
-    public function getPdo(): PDO
-    {
-        return $this->pdo;
-    }
-
-    public function setPdo(PDO $pdo): void
-    {
-        $this->pdo = $pdo;
-    }
-
-    public function getId(): int
-    {
-        return $this->id;
     }
 
     public function getTitle(): string
@@ -126,7 +110,7 @@ class Movie
         return $result;
     }
 
-    public function insertCategoryMovie($movieId) {
+    public function insertCategoryMovie($movieId = null) {
         $movieId = $movieId ?? $this->id;
         $stmt = $this->pdo->prepare("INSERT INTO category_movie (movie_id, category_id) VALUES (?, ?)");
 
@@ -135,42 +119,16 @@ class Movie
         }
     }
 
-    public function deleteCategoryMovie($movieId)
-    {
+    public function deleteCategoryMovie($movieId) {
         $stmt = $this->pdo->prepare("DELETE FROM category_movie WHERE movie_id = ?");
         $stmt->execute([$movieId]);
     }
 
-    public static function delete(PDO $pdo, int $id) {
-        $stmt = $pdo->prepare("DELETE FROM movies WHERE id = ?");
-        return $stmt->execute([$id]);
+    protected static function getTableName() {
+        return "movies";
     }
 
-    public static function getAll(PDO $pdo) {
-        $stmt = $pdo->query("SELECT * FROM movies");
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
-
-    public static function getById(PDO $pdo, int $id) {
-        $stmt = $pdo->prepare("SELECT * FROM movies WHERE id = ?");
-        $stmt->execute([$id]);
-        return $stmt->fetch(PDO::FETCH_ASSOC);
-    }
-
-    public static function countAll(PDO $pdo) {
-        $stmt = $pdo->query("SELECT COUNT(*) AS total FROM movies");
-        return $stmt->fetch(PDO::FETCH_ASSOC)['total'];
-    }
-
-    public static function search(PDO $pdo, string $keyword) {
-        $stmt = $pdo->prepare("SELECT * FROM movies WHERE title LIKE ?");
-        $stmt->execute(["%$keyword%"]);
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
-
-    public static function countSearch(PDO $pdo, string $keyword) {
-        $stmt = $pdo->prepare("SELECT COUNT(*) AS total FROM movies WHERE title LIKE ?");
-        $stmt->execute(["%$keyword%"]);
-        return $stmt->fetch(PDO::FETCH_ASSOC)['total'];
+    protected static function getSearchedField() {
+        return "title";
     }
 }

@@ -60,10 +60,10 @@ if ($db) {
 //    $movie->create();
 //    echo 'Created Movie ID: ' . $movie->getId() . '</br>';
 
-//    $movie->update(49);
+//    $movie->update(55);
 //    echo 'Updated Movie Title: ' . $movie->getTitle() . '</br>';
 
-//    Movie::delete($db, 42);
+//    Movie::delete($db, 55);
 
 //    $movieID = Movie::getById($db, 1);
 //    echo 'Movie Title: ' . $movieID['title'] . '</br>';
