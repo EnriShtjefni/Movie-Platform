@@ -236,6 +236,12 @@
     background-color: #555555 !important;
 }
 
+.select2-results__option .select2-icon {
+    float: right;
+    margin-left: 10px;
+    color: white;
+}
+
 .submit-button-wrapper {
     display: flex;
     align-items: flex-end;
