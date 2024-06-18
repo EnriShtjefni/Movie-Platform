@@ -57,11 +57,19 @@ if ($db) {
 
 //    Movie Operations -------------------
 //    $movie = new Movie($db, 'aaa', 'aaa', 2000, 'aaa', 1, [2,3]);
-//    $movie->create();
-//    echo 'Created Movie ID: ' . $movie->getId() . '</br>';
+//    $resultMovieCreate = $movie->create();
+//    if ($resultMovieCreate['success']) {
+//        echo "Movie created successfully.";
+//    } else {
+//        echo "Failed to create movie: " . implode(' ', $resultMovieCreate['errors']);
+//    }
 
-//    $movie->update(55);
-//    echo 'Updated Movie Title: ' . $movie->getTitle() . '</br>';
+//    $resultMovieUpdate = $movie->update(60);
+//    if ($resultMovieUpdate['success']) {
+//        echo "Movie updated successfully.";
+//    } else {
+//        echo "Failed to update movie: " . implode(' ', $resultMovieUpdate['errors']);
+//    }
 
 //    Movie::delete($db, 55);
 
@@ -89,11 +97,19 @@ if ($db) {
 
 //    Category Operations  ----------------------
 //    $category = new Category($db, 'Thriller');
-//    $category->create();
-//    echo 'Created Category ID: ' . $category->getId() . '</br>';
+//    $resultCategoryCreate = $category->create();
+//    if ($resultCategoryCreate['success']) {
+//        echo "Category created successfully.";
+//    } else {
+//        echo "Failed to create category: " . implode(' ', $resultCategoryCreate['errors']);
+//    }
 
-//    $category->update(25);
-//    echo 'Updated Category Name: ' . $category->getName() . '</br>';
+//    $resultCategoryUpdate = $category->update(27);
+//    if ($resultCategoryUpdate['success']) {
+//        echo "Category updated successfully.";
+//    } else {
+//        echo "Failed to update category: " . implode(' ', $resultCategoryUpdate['errors']);
+//    }
 
 //    Category::delete($db, 25);
 
@@ -120,12 +136,20 @@ if ($db) {
 
 
 //    Company Operations -------------------
-//    $company = new Company($db, 'company name', 15);
-//    $company->create();
-//    echo 'Created Company ID: ' . $company->getId() . '</br>';
+//    $company = new Company($db, 'company name', 5);
+//    $resultCompanyCreate = $company->create();
+//    if ($resultCompanyCreate['success']) {
+//        echo "Company created successfully.";
+//    } else {
+//        echo "Failed to create company: " . implode(' ', $resultCompanyCreate['errors']);
+//    }
 
-//    $company->update(12);
-//    echo 'Updated Company Name: ' . $company->getName() . '</br>';
+//    $resultCompanyUpdate = $company->update(16);
+//    if ($resultCompanyUpdate['success']) {
+//        echo "Company updated successfully.";
+//    } else {
+//        echo "Failed to update company: " . implode(' ', $resultCompanyUpdate['errors']);
+//    }
 
 //    Company::delete($db, 12);
 
@@ -153,11 +177,19 @@ if ($db) {
 
 //    Address Operations ------------------
 //    $address = new Address($db, 'address name', 'address city', 'address country', '123456789');
-//    $address->create();
-//    echo 'Created Address ID: ' . $address->getId() . '</br>';
+//    $resultAddressCreate = $address->create();
+//    if ($resultAddressCreate['success']) {
+//        echo "Address created successfully.";
+//    } else {
+//        echo "Failed to create address: " . implode(' ', $resultAddressCreate['errors']);
+//    }
 
-//    $address->update(14);
-//    echo 'Updated Address Name: ' . $address->getName() . '</br>';
+//    $resultAddressUpdate = $address->update(18);
+//    if ($resultAddressUpdate['success']) {
+//        echo "Address updated successfully.";
+//    } else {
+//        echo "Failed to update address: " . implode(' ', $resultAddressUpdate['errors']);
+//    }
 
 //    Address::delete($db, 14);
 

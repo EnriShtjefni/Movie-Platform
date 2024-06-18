@@ -15,7 +15,6 @@ class Category extends BaseModel
     public function __construct(PDO $pdo, string $name)
     {
         parent::__construct($pdo);
-        $this->pdo = $pdo;
         $this->name = $name;
     }
 
@@ -30,15 +29,34 @@ class Category extends BaseModel
     }
 
     public function create() {
+        $data = [
+            'name' => $this->name
+        ];
+
+        $validator = new CategoryValidator();
+        if (!$validator->validate($data)) {
+            return ['success' => false, 'errors' => $validator->getErrors()];
+        }
+
         $stmt = $this->pdo->prepare("INSERT INTO categories (name) VALUES (?)");
         $result = $stmt->execute([$this->name]);
         $this->id = $this->pdo->lastInsertId();
-        return $result;
+        return ['success' => $result];
     }
 
     public function update(int $id) {
+        $data = [
+            'name' => $this->name
+        ];
+
+        $validator = new CategoryValidator();
+        if (!$validator->validate($data)) {
+            return ['success' => false, 'errors' => $validator->getErrors()];
+        }
+
         $stmt = $this->pdo->prepare("UPDATE categories SET name = ? WHERE id = ?");
-        return $stmt->execute([$this->name, $id]);
+        $result = $stmt->execute([$this->name, $id]);
+        return ['success' => $result];
     }
 
     protected static function getTableName() {

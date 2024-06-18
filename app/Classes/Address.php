@@ -21,7 +21,6 @@ class Address extends BaseModel
     public function __construct(PDO $pdo, string $name, string $city, string $country, string $phone)
     {
         parent::__construct($pdo);
-        $this->pdo = $pdo;
         $this->name = $name;
         $this->city = $city;
         $this->country = $country;
@@ -69,15 +68,40 @@ class Address extends BaseModel
     }
 
     public function create() {
+        $data = [
+            'name' => $this->name,
+            'city' => $this->city,
+            'country' => $this->country,
+            'phone' => $this->phone
+        ];
+
+        $validator = new AddressValidator();
+        if (!$validator->validate($data)) {
+            return ['success' => false, 'errors' => $validator->getErrors()];
+        }
+
         $stmt = $this->pdo->prepare("INSERT INTO addresses (name, city, country, phone) VALUES (?, ?, ?, ?)");
         $result = $stmt->execute([$this->name, $this->city, $this->country, $this->phone]);
         $this->id = $this->pdo->lastInsertId();
-        return $result;
+        return ['success' => $result];
     }
 
     public function update(int $id) {
+        $data = [
+            'name' => $this->name,
+            'city' => $this->city,
+            'country' => $this->country,
+            'phone' => $this->phone
+        ];
+
+        $validator = new AddressValidator();
+        if (!$validator->validate($data)) {
+            return ['success' => false, 'errors' => $validator->getErrors()];
+        }
+
         $stmt = $this->pdo->prepare("UPDATE addresses SET name = ?, city = ?, country = ?, phone = ? WHERE id = ?");
-        return $stmt->execute([$this->name, $this->city, $this->country, $this->phone, $id]);
+        $result = $stmt->execute([$this->name, $this->city, $this->country, $this->phone, $id]);
+        return ['success' => $result];
     }
 
     protected static function getTableName() {

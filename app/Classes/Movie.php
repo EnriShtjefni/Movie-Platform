@@ -25,7 +25,6 @@ class Movie extends BaseModel
     public function __construct(PDO $pdo, string $title, string $description, int $year, string $status, int $company_id, array $categories)
     {
         parent::__construct($pdo);
-        $this->pdo = $pdo;
         $this->title = $title;
         $this->description = $description;
         $this->year = $year;
@@ -94,20 +93,50 @@ class Movie extends BaseModel
         $this->categories = $categories;
     }
 
-    public function create() {
+    public function create(): array
+    {
+        $data = [
+            'title' => $this->title,
+            'description' => $this->description,
+            'year' => $this->year,
+            'status' => $this->status,
+            'company_id' => $this->company_id,
+            'categories' => $this->categories
+        ];
+
+        $validator = new MovieValidator();
+        if (!$validator->validate($data)) {
+            return ['success' => false, 'errors' => $validator->getErrors()];
+        }
+
         $stmt = $this->pdo->prepare("INSERT INTO movies (title, description, year, status, company_id) VALUES (?, ?, ?, ?, ?)");
         $result = $stmt->execute([$this->title, $this->description, $this->year, $this->status, $this->company_id]);
         $this->id = $this->pdo->lastInsertId();
         $this->insertCategoryMovie();
-        return $result;
+        return ['success' => $result];
     }
 
-    public function update(int $id) {
+    public function update(int $id)
+    {
+        $data = [
+            'title' => $this->title,
+            'description' => $this->description,
+            'year' => $this->year,
+            'status' => $this->status,
+            'company_id' => $this->company_id,
+            'categories' => $this->categories
+        ];
+
+        $validator = new MovieValidator();
+        if (!$validator->validate($data)) {
+            return ['success' => false, 'errors' => $validator->getErrors()];
+        }
+
         $stmt = $this->pdo->prepare("UPDATE movies SET title = ?, description = ?, year = ?, status = ?, company_id = ? WHERE id = ?");
         $result = $stmt->execute([$this->title, $this->description, $this->year, $this->status, $this->company_id, $id]);
         $this->deleteCategoryMovie($id);
         $this->insertCategoryMovie($id);
-        return $result;
+        return ['success' => $result];
     }
 
     public function insertCategoryMovie($movieId = null) {
