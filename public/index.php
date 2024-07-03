@@ -50,10 +50,10 @@ require __DIR__.'/../vendor/autoload.php';
 |
 */
 
-$db = DB::connect('127.0.0.1', 'movie_platform', 'root', '', 3306);
-
-if ($db) {
-    echo "Connected to the database successfully!</br></br>";
+//$db = DB::connect('127.0.0.1', 'movie_platform', 'root', '', 3306);
+//
+//if ($db) {
+//    echo "Connected to the database successfully!</br></br>";
 
 //    Movie Operations -------------------
 //    $movie = new Movie($db, 'aaa', 'aaa', 2000, 'aaa', 1, [2,3]);
@@ -213,20 +213,20 @@ if ($db) {
 
 //    $addressSearchCount = Address::countSearch($db, 'Warner');
 //    echo "Total Filtered Addresses: " . $addressSearchCount;
-} else {
-    dd("Failed to connect to the database.");
-}
+//} else {
+//    dd("Failed to connect to the database.");
+//}
 
 
 
 
 
-//$app = require_once __DIR__.'/../bootstrap/app.php';
-//
-//$kernel = $app->make(Kernel::class);
-//
-//$response = $kernel->handle(
-//    $request = Request::capture()
-//)->send();
-//
-//$kernel->terminate($request, $response);
+$app = require_once __DIR__.'/../bootstrap/app.php';
+
+$kernel = $app->make(Kernel::class);
+
+$response = $kernel->handle(
+    $request = Request::capture()
+)->send();
+
+$kernel->terminate($request, $response);

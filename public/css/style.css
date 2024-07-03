@@ -34,6 +34,7 @@
     padding: 20px;
     display: flex;
     flex-wrap: wrap;
+    min-height: 100vh;
 }
 
 .container-left {
